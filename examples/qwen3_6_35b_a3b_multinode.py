@@ -81,8 +81,13 @@ import torch
 
 # ─── Platform detection ──────────────────────────────────────────────────────
 
+_is_txda = hasattr(torch, "txda") and torch.txda.is_available()
 _is_musa = hasattr(torch, "musa") and torch.musa.is_available()
 _is_npu = hasattr(torch, "npu") and torch.npu.is_available()
+
+if _is_txda:
+    os.environ.setdefault("SGLANG_FL_TIMER_ENABLE", "1")
+    os.environ.setdefault("SGLANG_FL_DIST_BACKEND", "tccl")
 
 # Must be set before launching sglang. Subprocesses inherit os.environ.
 if _is_npu:
@@ -511,6 +516,9 @@ def run_master(args):
         "--trust-remote-code",
         *_PLATFORM_SERVER_ARGS,
     ]
+    if _is_txda:
+        cmd.insert(cmd.index("--mem-fraction-static"), "--device")
+        cmd.insert(cmd.index("--mem-fraction-static"), "txda")
 
     print("Launching server...")
     server_proc = subprocess.Popen(cmd)
@@ -602,6 +610,9 @@ def run_worker(args):
         "--trust-remote-code",
         *_PLATFORM_SERVER_ARGS,
     ]
+    if _is_txda:
+        cmd.insert(cmd.index("--mem-fraction-static"), "--device")
+        cmd.insert(cmd.index("--mem-fraction-static"), "txda")
 
     print("Starting worker node... (will block until master shuts down)\n")
     try:
