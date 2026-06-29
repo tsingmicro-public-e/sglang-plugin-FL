@@ -84,10 +84,14 @@ import torch
 
 # ─── Platform detection ──────────────────────────────────────────────────────
 
+_is_txda = hasattr(torch, "txda") and torch.txda.is_available()
 _is_musa = hasattr(torch, "musa") and torch.musa.is_available()
 _is_npu = hasattr(torch, "npu") and torch.npu.is_available()
 
 # Must be set before launching sglang. Subprocesses inherit os.environ.
+if _is_txda:
+    os.environ.setdefault("SGLANG_FL_TIMER_ENABLE", "1")
+    os.environ.setdefault("SGLANG_FL_DIST_BACKEND", "tccl")
 if _is_npu:
     os.environ.setdefault("SGLANG_ENABLE_OVERLAP_PLAN_STREAM", "0")
     os.environ.setdefault("SGLANG_ENABLE_SPEC_V2", "1")
@@ -524,6 +528,20 @@ def run_master(args):
         *_PLATFORM_SERVER_ARGS,
     ]
 
+    if _is_txda:
+        insert_pos = cmd.index("--mem-fraction-static")
+        for flag in reversed([
+            "--device", "txda",
+            "--dtype", "bfloat16",
+            "--disable-radix-cache",
+            "--watchdog-timeout", "3600",
+            "--mm-attention-backend", "triton_attn",
+            "--disable-fast-image-processor",
+            "--context-length", "8192",
+            "--chunked-prefill-size", "256",
+        ]):
+            cmd.insert(insert_pos, flag)
+
     print("Launching server...")
     server_proc = subprocess.Popen(cmd)
     print(f"Server PID: {server_proc.pid}")
@@ -614,6 +632,20 @@ def run_worker(args):
         "--trust-remote-code",
         *_PLATFORM_SERVER_ARGS,
     ]
+
+    if _is_txda:
+        insert_pos = cmd.index("--mem-fraction-static")
+        for flag in reversed([
+            "--device", "txda",
+            "--dtype", "bfloat16",
+            "--disable-radix-cache",
+            "--watchdog-timeout", "3600",
+            "--mm-attention-backend", "triton_attn",
+            "--disable-fast-image-processor",
+            "--context-length", "8192",
+            "--chunked-prefill-size", "256",
+        ]):
+            cmd.insert(insert_pos, flag)
 
     print("Starting worker node... (will block until master shuts down)\n")
     try:

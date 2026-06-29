@@ -517,8 +517,18 @@ def run_master(args):
         *_PLATFORM_SERVER_ARGS,
     ]
     if _is_txda:
-        cmd.insert(cmd.index("--mem-fraction-static"), "--device")
-        cmd.insert(cmd.index("--mem-fraction-static"), "txda")
+        insert_pos = cmd.index("--mem-fraction-static")
+        for flag in reversed([
+            "--device", "txda",
+            "--dtype", "bfloat16",
+            "--disable-radix-cache",
+            "--watchdog-timeout", "3600",
+            "--mm-attention-backend", "triton_attn",
+            "--disable-fast-image-processor",
+            "--context-length", "8192",
+            "--chunked-prefill-size", "256",
+        ]):
+            cmd.insert(insert_pos, flag)
 
     print("Launching server...")
     server_proc = subprocess.Popen(cmd)
@@ -611,8 +621,18 @@ def run_worker(args):
         *_PLATFORM_SERVER_ARGS,
     ]
     if _is_txda:
-        cmd.insert(cmd.index("--mem-fraction-static"), "--device")
-        cmd.insert(cmd.index("--mem-fraction-static"), "txda")
+        insert_pos = cmd.index("--mem-fraction-static")
+        for flag in reversed([
+            "--device", "txda",
+            "--dtype", "bfloat16",
+            "--disable-radix-cache",
+            "--watchdog-timeout", "3600",
+            "--mm-attention-backend", "triton_attn",
+            "--disable-fast-image-processor",
+            "--context-length", "8192",
+            "--chunked-prefill-size", "256",
+        ]):
+            cmd.insert(insert_pos, flag)
 
     print("Starting worker node... (will block until master shuts down)\n")
     try:
