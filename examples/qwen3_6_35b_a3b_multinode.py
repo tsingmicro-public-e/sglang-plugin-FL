@@ -518,6 +518,7 @@ def run_master(args):
     ]
     if _is_txda:
         insert_pos = cmd.index("--mem-fraction-static")
+        cmd[insert_pos + 1] = "0.6"
         for flag in reversed([
             "--device", "txda",
             "--dtype", "bfloat16",
@@ -622,6 +623,7 @@ def run_worker(args):
     ]
     if _is_txda:
         insert_pos = cmd.index("--mem-fraction-static")
+        cmd[insert_pos + 1] = "0.6"
         for flag in reversed([
             "--device", "txda",
             "--dtype", "bfloat16",
