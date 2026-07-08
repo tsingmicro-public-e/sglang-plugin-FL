@@ -87,9 +87,8 @@ _is_npu = hasattr(torch, "npu") and torch.npu.is_available()
 
 if _is_txda:
     os.environ.setdefault("SGLANG_FL_TIMER_ENABLE", "1")
-    os.environ.setdefault("SGLANG_FL_DIST_BACKEND", "tccl")
-
-# Must be set before launching sglang. Subprocesses inherit os.environ.
+    os.environ.setdefault("SGLANG_REQ_WAITING_TIMEOUT", "-1")
+    os.environ.setdefault("SGLANG_REQ_RUNNING_TIMEOUT", "-1")
 if _is_npu:
     os.environ.setdefault("SGLANG_ENABLE_OVERLAP_PLAN_STREAM", "0")
     os.environ.setdefault("SGLANG_ENABLE_SPEC_V2", "1")

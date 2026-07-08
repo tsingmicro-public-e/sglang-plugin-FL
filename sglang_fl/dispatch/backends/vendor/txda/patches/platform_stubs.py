@@ -55,16 +55,36 @@ _patched = False
 # ---------------------------------------------------------------------------
 _PLATFORM_STUB_MODULES = frozenset(
     {
-        "sgl_kernel",
+        # sgl_kernel - top-level __init__.py calls _load_architecture_specific_ops()
+        # which loads CUDA-compiled shared objects. Stub the entire package so
+        # that any import of sgl_kernel survives on TXDA.
+        # IMPORTANT: TXDA backend implementations MUST NOT use sgl_kernel -
+        # use pure PyTorch ops instead (torch_txda maps them to TXDA hardware).
+        "sgl_kernel.allreduce",
+        "sgl_kernel.attention",
+        "sgl_kernel.cutlass_moe",
         "sgl_kernel.elementwise",
+        "sgl_kernel.expert_specialization",
         "sgl_kernel.flash_attn",
         "sgl_kernel.flash_mla",
+        "sgl_kernel.gemm",
+        "sgl_kernel.grammar",
         "sgl_kernel.kvcacheio",
+        "sgl_kernel.load_utils",
         "sgl_kernel.mamba",
+        "sgl_kernel.memory",
+        "sgl_kernel.moe",
         "sgl_kernel.quantization",
-        "sgl_kernel.scalar_type",
+        "sgl_kernel.sampling",
         "sgl_kernel.sparse_flash_attn",
+        "sgl_kernel.spatial",
         "sgl_kernel.speculative",
+        "sgl_kernel.sm90",
+        "sgl_kernel.sm100",
+        "sgl_kernel.test_utils",
+        "sgl_kernel.top_k",
+        "sgl_kernel.utils",
+        # flashinfer - same situation: CUDA-only, not available on TXDA
         "flashinfer",
         "flashinfer.autotuner",
         "flashinfer.cascade",
@@ -81,7 +101,6 @@ _PLATFORM_STUB_MODULES = frozenset(
         "flashinfer.sampling",
         "flashinfer.utils",
         "sglang.srt.distributed.device_communicators.pynccl_allocator",
-        # "torch.cuda.memory._cuda_beginAllocateCurrentThreadToPool"
     }
 )
 
