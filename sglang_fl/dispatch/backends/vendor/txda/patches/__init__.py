@@ -19,6 +19,7 @@ Patches applied:
                     route UnquantizedFusedMoEMethod.apply through dispatch
   platform_stubs  – Inject stub modules for CUDA-only deps on non-CUDA platforms
   model_runner    – Per-iteration forward() timing (SGLANG_FL_TIMER_ENABLE)
+  scheduler_pp_mixin –  PP send/recv even/odd ordering for txda (same as XPU)
 
 Usage (called automatically by load_plugin()):
 
@@ -52,9 +53,10 @@ def apply_all_txda_patches() -> None:
         _log.skipped("txda not available — txda-specific patches skipped")
         return
 
-    from sglang_fl.dispatch.backends.vendor.txda.patches import dist_init, fused_moe
+    from sglang_fl.dispatch.backends.vendor.txda.patches import dist_init, fused_moe, scheduler_pp_mixin
 
     dist_init.patch()
     fused_moe.patch()  # includes former unquant patch
+    scheduler_pp_mixin.patch()
 
     _log.applied("all txda monkey patches applied")
