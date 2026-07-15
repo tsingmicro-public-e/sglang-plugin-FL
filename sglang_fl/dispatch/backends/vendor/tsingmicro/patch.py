@@ -11,7 +11,7 @@ Patches are idempotent — safe to import multiple times.
 
 import logging
 
-from sglang_fl.dispatch.backends.vendor.txda.patches import apply_all_txda_patches
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches import apply_all_txda_patches
 
 logger = logging.getLogger(__name__)
 _patches_applied = False

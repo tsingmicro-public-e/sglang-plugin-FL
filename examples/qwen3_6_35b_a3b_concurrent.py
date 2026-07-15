@@ -52,6 +52,8 @@ if _is_npu:
 
 if _is_txda:
     os.environ.setdefault("SGLANG_FL_TIMER_ENABLE", "1")
+    os.environ.setdefault("SGLANG_REQ_WAITING_TIMEOUT", "-1")
+    os.environ.setdefault("SGLANG_REQ_RUNNING_TIMEOUT", "-1")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
@@ -77,7 +79,7 @@ elif _is_txda:
     print("inference use txda")
     # ─── Early stub-module injection ─────────────────────────────────────────
     try:
-        from sglang_fl.dispatch.backends.vendor.txda.patches.platform_stubs import patch as _patch_stubs
+        from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.platform_stubs import patch as _patch_stubs
         _patch_stubs()
     except Exception:
         pass
@@ -89,7 +91,6 @@ elif _is_txda:
         "watchdog_timeout": 3600,
         "mm_attention_backend": "triton_attn",
         "disable_fast_image_processor": True,
-        "mem_fraction_static": 0.6,
         "context_length": 8192,
         "chunked_prefill_size":256
     }
@@ -204,7 +205,7 @@ def _make_engine():
     return Engine(
         model_path=MODEL_PATH,
         tp_size=TP_SIZE,
-        # mem_fraction_static=0.85,
+        mem_fraction_static=0.6 if _is_txda else 0.85,
         disable_cuda_graph=True,
         disable_piecewise_cuda_graph=True,
         **_extra_engine_kwargs,

@@ -31,8 +31,8 @@ import functools
 
 import torch
 
-from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
-from sglang_fl.dispatch.backends.vendor.txda.patches._utils import is_txda as _is_txda
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._utils import is_txda as _is_txda
 
 _log = patch_logger("fused_moe")
 
@@ -61,7 +61,7 @@ def _patch_moe_align_block_size() -> None:
         return
 
     try:
-        from sglang_fl.dispatch.backends.vendor.txda.patches.fused_moe.moe_align_block_size import (
+        from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.fused_moe.moe_align_block_size import (
             moe_align_block_size as _txda_moe_align,
         )
     except Exception as exc:

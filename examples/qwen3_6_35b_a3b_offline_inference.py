@@ -41,9 +41,9 @@ if _is_npu:
     os.environ.setdefault("SGLANG_DEEPEP_NUM_MAX_DISPATCH_TOKENS_PER_RANK", "128")
 
 if _is_txda:
-    # os.environ.setdefault("SGLANG_ENABLE_OVERLAP_PLAN_STREAM", "0")
-    # os.environ.setdefault("TCCL_BUFFSIZE", "2400")
     os.environ.setdefault("SGLANG_FL_TIMER_ENABLE", "1")
+    os.environ.setdefault("SGLANG_REQ_WAITING_TIMEOUT", "-1")
+    os.environ.setdefault("SGLANG_REQ_RUNNING_TIMEOUT", "-1")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
@@ -73,7 +73,7 @@ elif _is_txda:
     # of real imports of sgl_kernel / flashinfer / pynccl_allocator.  The
     # patches subsystem's load_plugin() entry point runs too late for that.
     try:
-        from sglang_fl.dispatch.backends.vendor.txda.patches.platform_stubs import patch as _patch_stubs
+        from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.platform_stubs import patch as _patch_stubs
         _patch_stubs()
     except Exception:
         pass  # best-effort: if this fails, the downstream import chain will show the real error
@@ -85,7 +85,6 @@ elif _is_txda:
         "watchdog_timeout": 3600,
         "mm_attention_backend": "triton_attn",
         "disable_fast_image_processor": True,
-        "mem_fraction_static": 0.6,
         "context_length": 8192,
         "chunked_prefill_size":256
     }
@@ -186,7 +185,7 @@ def run_engine():
     engine = Engine(
         model_path=MODEL_PATH,
         tp_size=TP_SIZE,
-        # mem_fraction_static=0.85,
+        mem_fraction_static=0.6 if _is_txda else 0.85,
         disable_cuda_graph=True,
         disable_piecewise_cuda_graph=True,
         **_extra_engine_kwargs,

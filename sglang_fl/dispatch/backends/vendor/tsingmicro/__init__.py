@@ -7,4 +7,4 @@ Monkey-patches are now applied via ``patch.py`` (auto-imported by
 package directly only when you need the backend class or op registrations.
 """
 
-from sglang_fl.dispatch.backends.vendor.txda.txda import TxdaBackend  # noqa: F401
+from sglang_fl.dispatch.backends.vendor.tsingmicro.txda import TxdaBackend  # noqa: F401

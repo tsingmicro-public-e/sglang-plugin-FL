@@ -7,7 +7,7 @@ format, making it easy to query by module or action via grep/structured logging 
 
 Usage::
 
-    from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
+    from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
 
     _log = patch_logger("device_support")
 
@@ -35,7 +35,7 @@ class PatchLogger:
 
     def __init__(self, module: str) -> None:
         self._module = module
-        self._logger = logging.getLogger(f"sglang_fl.dispatch.backends.vendor.txda.patches.{module}")
+        self._logger = logging.getLogger(f"sglang_fl.dispatch.backends.vendor.tsingmicro.patches.{module}")
 
     def _format(self, action: str, msg: str) -> str:
         return f"[TXDA_PATCH|{self._module}] action={action} {msg}"

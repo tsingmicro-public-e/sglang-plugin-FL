@@ -443,10 +443,7 @@ def _apply_vendor_patches() -> None:
         logger.warning("vendor patch skipped: DeviceDetector failed (%s)", e)
         return
 
-    if vendor == "tsingmicro":
-        module = f"sglang_fl.dispatch.backends.vendor.txda.patch"
-    else:
-        module = f"sglang_fl.dispatch.backends.vendor.{vendor}.patch"
+    module = f"sglang_fl.dispatch.backends.vendor.{vendor}.patch"
     try:
         importlib.import_module(module)
         logger.info("vendor patch loaded: %s", module)

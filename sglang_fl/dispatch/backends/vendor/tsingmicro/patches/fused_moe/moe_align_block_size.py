@@ -15,7 +15,7 @@ but the sgl_kernel version does not.
 
 See also:
   - :mod:`flag_gems.runtime.backend._tsingmicro.fused.moe_align_block_size`
-  - :mod:`sglang_fl.dispatch.backends.vendor.txda.patches.fused_moe` — the patch that replaces the
+  - :mod:`sglang_fl.dispatch.backends.vendor.tsingmicro.patches.fused_moe` — the patch that replaces the
     reference in sglang's fused_moe module with this implementation.
 """
 
@@ -23,7 +23,7 @@ from typing import Optional, Tuple
 
 import torch
 
-from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
 
 _log = patch_logger("moe_align_block_size")
 

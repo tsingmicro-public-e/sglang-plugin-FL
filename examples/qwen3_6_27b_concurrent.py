@@ -52,6 +52,8 @@ if _is_npu:
 
 if _is_txda:
     os.environ.setdefault("SGLANG_FL_TIMER_ENABLE", "1")
+    os.environ.setdefault("SGLANG_REQ_WAITING_TIMEOUT", "-1")
+    os.environ.setdefault("SGLANG_REQ_RUNNING_TIMEOUT", "-1")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
@@ -77,7 +79,7 @@ elif _is_txda:
     print("inference use txda")
     # ─── Early stub-module injection ─────────────────────────────────────────
     try:
-        from sglang_fl.dispatch.backends.vendor.txda.patches.platform_stubs import patch as _patch_stubs
+        from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.platform_stubs import patch as _patch_stubs
         _patch_stubs()
     except Exception:
         pass

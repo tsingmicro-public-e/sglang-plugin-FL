@@ -17,8 +17,8 @@ from sglang.srt.distributed.parallel_state import P2PWork
 from sglang.srt.model_executor.forward_batch_info import PPProxyTensors
 from sglang.srt.utils.common import is_xpu
 
-from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
-from sglang_fl.dispatch.backends.vendor.txda.patches._utils import is_txda as _is_txda
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._utils import is_txda as _is_txda
 
 _log = patch_logger("scheduler_pp_mixin")
 

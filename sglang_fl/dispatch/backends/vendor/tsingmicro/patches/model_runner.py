@@ -25,7 +25,7 @@ import time
 
 import torch
 
-from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
 
 _log = patch_logger("model_runner")
 

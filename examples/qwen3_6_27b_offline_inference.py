@@ -69,7 +69,7 @@ elif _is_txda:
     print("inference use txda")
     # ─── Early stub-module injection ─────────────────────────────────────────────
     try:
-        from sglang_fl.dispatch.backends.vendor.txda.patches.platform_stubs import patch as _patch_stubs
+        from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.platform_stubs import patch as _patch_stubs
         _patch_stubs()
     except Exception:
         pass

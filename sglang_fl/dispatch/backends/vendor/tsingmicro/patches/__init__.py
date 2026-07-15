@@ -23,14 +23,14 @@ Patches applied:
 
 Usage (called automatically by load_plugin()):
 
-    from sglang_fl.dispatch.backends.vendor.txda.patches import apply_all_txda_patches
+    from sglang_fl.dispatch.backends.vendor.tsingmicro.patches import apply_all_txda_patches
     apply_all_txda_patches()
 """
 
 import torch
 
-from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
-from sglang_fl.dispatch.backends.vendor.txda.patches._utils import is_txda as is_txda_available
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._utils import is_txda as is_txda_available
 
 _log = patch_logger("patches")
 
@@ -42,7 +42,7 @@ def apply_all_txda_patches() -> None:
     for per-patch submodules; per_rank_log and device_support are applied
     unconditionally.
     """
-    from sglang_fl.dispatch.backends.vendor.txda.patches import per_rank_log, device_support, platform_stubs, model_runner
+    from sglang_fl.dispatch.backends.vendor.tsingmicro.patches import per_rank_log, device_support, platform_stubs, model_runner
 
     per_rank_log.patch()
     device_support.patch()   # universal + txda-gated internally
@@ -53,7 +53,7 @@ def apply_all_txda_patches() -> None:
         _log.skipped("txda not available — txda-specific patches skipped")
         return
 
-    from sglang_fl.dispatch.backends.vendor.txda.patches import dist_init, fused_moe, scheduler_pp_mixin
+    from sglang_fl.dispatch.backends.vendor.tsingmicro.patches import dist_init, fused_moe, scheduler_pp_mixin
 
     dist_init.patch()
     fused_moe.patch()  # includes former unquant patch

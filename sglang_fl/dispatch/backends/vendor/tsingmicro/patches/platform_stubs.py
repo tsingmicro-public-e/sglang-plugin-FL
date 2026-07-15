@@ -36,7 +36,7 @@ import os
 import sys
 import types
 
-from sglang_fl.dispatch.backends.vendor.txda.patches._logger import patch_logger
+from sglang_fl.dispatch.backends.vendor.tsingmicro.patches._logger import patch_logger
 try:
     import torch_txda  # noqa: F401
     from torch_txda import transfer_to_txda

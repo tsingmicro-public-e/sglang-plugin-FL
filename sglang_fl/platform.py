@@ -315,14 +315,9 @@ class PlatformFL(SRTPlatform):
         decorators live, which inject OOT backends into sglang's
         ``ATTENTION_BACKENDS`` dict. See ``vendor/template/`` for a skeleton.
         """
-        if self._vendor_name == "tsingmicro":
-            vendor_module = (
-                f"sglang_fl.dispatch.backends.vendor.txda.register_platform"
-            )
-        else:
-            vendor_module = (
-                f"sglang_fl.dispatch.backends.vendor.{self._vendor_name}.register_platform"
-            )
+        vendor_module = (
+            f"sglang_fl.dispatch.backends.vendor.{self._vendor_name}.register_platform"
+        )
         try:
             importlib.import_module(vendor_module)
             status = "loaded"
