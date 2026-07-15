@@ -423,9 +423,9 @@ def _setup_flaggems(config: dict = None):
 def _apply_vendor_patches() -> None:
     """Import vendor/<vendor_name>/patch.py to apply vendor monkey-patches
     on sglang internals. Called last in load_plugin(), after every sglang_fl
-    layer (FlagGems ATen, dispatch system, AROUND hooks, communicator). 
+    layer (FlagGems ATen, dispatch system, AROUND hooks, communicator).
     Resolves vendor_name via FlagGems' DeviceDetector — no PlatformFL needed,
-    so this still runs before sglang's model_runner is imported. Silently 
+    so this still runs before sglang's model_runner is imported. Silently
     skips when the vendor module is absent or hardware is unrecognised.
     """
     import importlib
