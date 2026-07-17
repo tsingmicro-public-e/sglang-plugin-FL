@@ -489,6 +489,14 @@ def _setup_communicator_hooks():
                     rank_in_group=self.rank_in_group,
                     ranks=self.ranks,
                 )
+                # Suppress PyNccl when FlagCX is active to avoid conflicts
+                if (
+                    self.fl_communicator
+                    and self.fl_communicator._flagcx_comm
+                    and hasattr(self, "pynccl_comm")
+                    and self.pynccl_comm is not None
+                ):
+                    self.pynccl_comm.disabled = True
             except Exception as e:
                 logger.warning(f"CommunicatorFL creation failed: {e}")
                 self.fl_communicator = None
