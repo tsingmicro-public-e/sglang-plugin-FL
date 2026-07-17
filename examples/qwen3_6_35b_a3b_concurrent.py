@@ -58,7 +58,7 @@ if _is_txda:
 # ─── Configuration ────────────────────────────────────────────────────────────
 
 MODEL_PATH = os.environ.get("MODEL_PATH", "/models/Qwen3.6-35B-A3B")
-TP_SIZE = int(os.environ.get("TP_SIZE", "8" if _is_txda else ("4" if _is_npu else "1")))
+TP_SIZE = int(os.environ.get("TP_SIZE", "4" if _is_npu or _is_txda else "1"))
 MAX_TOKENS = int(os.environ.get("MAX_TOKENS", "256"))
 CONCURRENT_N = int(os.environ.get("CONCURRENT_N", "16"))
 
@@ -76,7 +76,6 @@ elif _is_npu:
         "disable_radix_cache": True,
     }
 elif _is_txda:
-    print("inference use txda")
     # ─── Early stub-module injection ─────────────────────────────────────────
     try:
         from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.platform_stubs import patch as _patch_stubs

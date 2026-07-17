@@ -62,7 +62,7 @@ class TxdaBackend(Backend):
         x: torch.Tensor,
         residual: Optional[torch.Tensor] = None,
     ) -> Union[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
-        from .impl.normalization import gemma_rms_norm_txda
+        from .impl.gemma_rms_norm import gemma_rms_norm_txda
         return gemma_rms_norm_txda(obj, x, residual)
 
     def rotary_embedding(

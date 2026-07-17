@@ -1,4 +1,4 @@
-# TXDA normalization operator implementations.
+# TXDA GemmaRMSNorm operator implementation.
 #
 # TODO: Replace NotImplementedError with torch_txda native kernel once verified
 # on hardware. Current behavior: falls back to reference.
@@ -10,11 +10,11 @@ from typing import Optional, Union
 import torch
 
 
-def rms_norm_txda(
+def gemma_rms_norm_txda(
     obj,
     x: torch.Tensor,
     residual: Optional[torch.Tensor] = None,
 ) -> Union[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
     raise NotImplementedError(
-        "rms_norm_txda: no torch_txda kernel wired yet; falling back to flaggems/reference"
+        "gemma_rms_norm_txda: no torch_txda kernel wired yet; falling back to flaggems/reference"
     )

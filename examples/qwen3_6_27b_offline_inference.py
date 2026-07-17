@@ -47,7 +47,7 @@ if _is_txda:
 # ─── Configuration ────────────────────────────────────────────────────────────
 
 MODEL_PATH = os.environ.get("MODEL_PATH", "/models/Qwen3.6-27B")
-TP_SIZE = int(os.environ.get("TP_SIZE", "8" if _is_txda else ("4" if _is_npu else "1")))
+TP_SIZE = int(os.environ.get("TP_SIZE", "4" if _is_npu or _is_txda else "1"))
 MAX_TOKENS = int(os.environ.get("MAX_TOKENS", "10"))
 
 _HERE = Path(__file__).resolve().parent
