@@ -19,13 +19,11 @@ import os
 import sys
 import types
 from pathlib import Path
+import torch
 try:
-    import torch_txda  # noqa: F401
-    from torch_txda import transfer_to_txda
+    import torch_txda
 except ImportError:
     pass
-import torch
-
 
 # ─── Platform detection ───────────────────────────────────────────────────────
 
