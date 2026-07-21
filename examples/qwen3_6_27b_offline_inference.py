@@ -19,10 +19,6 @@ import os
 import sys
 from pathlib import Path
 import torch
-try:
-    import torch_txda
-except ImportError:
-    pass
 
 # ─── Platform detection ───────────────────────────────────────────────────────
 
@@ -64,7 +60,6 @@ elif _is_npu:
         "disable_radix_cache": True,
     }
 elif _is_txda:
-    print("inference use txda")
     # ─── Early stub-module injection ─────────────────────────────────────────────
     try:
         from sglang_fl.dispatch.backends.vendor.tsingmicro.patches.platform_stubs import patch as _patch_stubs

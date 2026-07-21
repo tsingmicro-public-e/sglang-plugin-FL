@@ -30,11 +30,6 @@ import sys
 import time
 from pathlib import Path
 import torch
-try:
-    import torch_txda
-except ImportError:
-    pass
-
 
 # ─── Platform detection ───────────────────────────────────────────────────────
 

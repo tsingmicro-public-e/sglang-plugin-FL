@@ -20,10 +20,6 @@ import sys
 import types
 from pathlib import Path
 import torch
-try:
-    import torch_txda
-except ImportError:
-    pass
 
 # ─── Platform detection ───────────────────────────────────────────────────────
 
@@ -65,7 +61,6 @@ elif _is_npu:
         "disable_radix_cache": True,
     }
 elif _is_txda:
-    print("inference use txda")
     # ─── Early stub-module injection ─────────────────────────────────────────────
     # Must run at *import time*, before any SGLang submodule triggers a cascade
     # of real imports of sgl_kernel / flashinfer / pynccl_allocator.  The

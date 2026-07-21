@@ -80,10 +80,6 @@ import time
 import urllib.request
 from pathlib import Path
 import torch
-try:
-    import torch_txda
-except ImportError:
-    pass
 
 # ─── Platform detection ──────────────────────────────────────────────────────
 
